@@ -36,10 +36,11 @@ class WeekyPicker extends InputWidget
      */
     public $triggerSaveOnBeforeValidateForm = true;
 
+    public $months   = ['J', 'F', 'M', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
     public $weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+    public $days     = ['min' => 1, 'max' => 31];
     public $hours    = ['min' => 0, 'max' => 23];
     public $minutes  = ['min' => 0, 'max' => 59];
-    public $month    = ['min' => 1, 'max' => 31];
 
 
 
