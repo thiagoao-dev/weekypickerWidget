@@ -25,6 +25,10 @@ class WeekyPicker extends InputWidget
      */
     public $language;
     /**
+     * @var string the type of measure to use. Defaults to null (months).
+     */
+    public $type;
+    /**
      * @var array the options for the TinyMCE JS plugin.
      * Please refer to the TinyMCE JS plugin Web page for possible options.
      * @see http://www.tinymce.com/wiki.php/Configuration
@@ -36,49 +40,64 @@ class WeekyPicker extends InputWidget
      */
     public $triggerSaveOnBeforeValidateForm = true;
 
-    public $months   = ['J', 'F', 'M', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
-    public $weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
-    public $days     = ['min' => 1, 'max' => 31];
+    // Types
+    public $months   = ['J', 'F', 'M', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D']; // 1-12
+    public $weekDays = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D']; // 1-7
+    public $days     = ['min' => 1, 'max' => 31]; // 1-31
     public $hours    = ['min' => 0, 'max' => 23];
     public $minutes  = ['min' => 0, 'max' => 59];
 
-
+    public function init()
+    {
+        // Input params
+        $this->options['class'] = "weekypicker";
+        $this->options['type']  = "hidden";
+        $this->options['value'] = "example";
+    }
 
     /**
      * @inheritdoc
      */
     public function run()
     {
-        $this->options['class'] = "weekypicker";
-        $this->options['type']  = "hidden";
-        $this->options['value'] = "example";
-
-        $html = <<< 'HTML'
-        <div class="row">
-        <div class="col-lg-12">
-        <div class="btn btn-default">D</div>
-        <div class="btn btn-default">S</div>
-        <div class="btn btn-success">T</div>
-        <div class="btn btn-default">Q</div>
-        <div class="btn btn-default">Q</div>
-        <div class="btn btn-success">S</div>
-        <div class="btn btn-default">S</div>
-        <div class="btn btn-info">Todos</div>
-HTML;
-
-        if ($this->hasModel()) {
-            echo Html::activeTextInput($this->model, $this->attribute, $this->options);
-        } else {
-            echo Html::textInput($this->name, $this->value, $this->options);
+        // Select the measure type
+        switch ($this->type){
+            case "minutes":
+                break;
+            case "hours":
+                break;
+            case "days":
+                break;
+            case "weekDays":
+//                echo $this->type;
+                break;
+            default:
+                break;
         }
-        $html .= <<< 'HTML'
-</div>
-</div>
-HTML;
 
-        echo $html;
+
 
         //$this->registerClientScript();
+    }
+
+    private function mountData()
+    {
+        $html = '<div class="row"><div class="col-lg-12">';
+        foreach(eval('$'.$this->type) as $value => $key){
+
+        }
+    }
+
+    /**
+     * @return string input html
+     */
+    private function getImput()
+    {
+        if ($this->hasModel()) {
+            return Html::activeTextInput($this->model, $this->attribute, $this->options);
+        } else {
+            return Html::textInput($this->name, $this->value, $this->options);
+        }
     }
 
     /**
