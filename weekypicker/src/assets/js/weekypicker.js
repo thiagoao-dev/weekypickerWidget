@@ -1,4 +1,8 @@
 $(document).ready(function() {
+
+    // Carrega os botões selecionados
+    loadCron();
+
     // Catch clicked button
     $(".weekypicker").on("click", function(){
         // Alter the button status
@@ -27,3 +31,19 @@ $(document).ready(function() {
         $(this).parent().parent().children('div.weekypicker-menu').slideToggle();
     });
 });
+
+function loadCron(){
+    // Verifica em todas instancias de input
+    $("input.weekypicker").each(function(){
+        // Verifica se existe algum valor na instancia
+        if ( $(this).val() ) {
+            // Recupera o tipo do elemento e valores
+            var type = $(this).attr('class').split(" ")[1];
+            var data = $.parseJSON($(this).val());
+            $.each(data, function(key, value){
+                // Atribui a classe em todas as div correspondetes
+                $('div.weekypicker[data-type="' + type + '"][data-'+type+'="'+value+'"]').addClass("btn-success");
+            });
+        }
+    });
+};
