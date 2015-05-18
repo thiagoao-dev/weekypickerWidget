@@ -7,9 +7,9 @@ class WeekyPickerwidgetAssets extends AssetBundle {
 
     public $sourcePath = '@vendor/thiagoaugustus/weekypicker/src/assets/';
 
-//    public $css = [
-//        'css/PhoneWidget.css'
-//    ];
+    public $css = [
+        'css/weekypicker.css'
+    ];
 
     public $js = [
         'js/weekypicker.js'

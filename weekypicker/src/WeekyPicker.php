@@ -87,7 +87,12 @@ class WeekyPicker extends InputWidget
 
     private function mountData($values)
     {
-        $html = "<div class='row'><div class='col-lg-12'>";
+        $html = "<div class='row'>
+                    <div class='col-lg-12'>
+                            <div class='btn btn-info weekypicker-select'>Selecionar</div>
+                    </div>
+                    <br><br>
+                    <div class='col-lg-12 weekypicker-menu'>";
         if ($values == "weekDays" || $values == "months") {
             foreach($this->$values as $value){
                 $html .= "<div class='btn btn-default weekypicker' data-$values='$value'>$value</div>";
