@@ -51,9 +51,10 @@ class WeekyPicker extends InputWidget
     {
         // Input params
         $this->options['class'] = "weekypicker " . $this->type;
-//        $this->options['type']  = "hidden";
+        $this->options['type']  = "hidden";
         $this->options['value'] = "";
         WeekyPickerwidgetAssets::register($this->view);
+        $this->getImput();
     }
 
     /**
@@ -87,30 +88,36 @@ class WeekyPicker extends InputWidget
 
     private function mountData($values)
     {
-        $html = "<div class='row'>
-                    <div class='col-lg-12'>
-                            <div class='btn btn-info weekypicker-select'>Selecionar</div>
-                    </div>
-                    <br><br>
-                    <div class='col-lg-12 weekypicker-menu'>";
+        $html = $this->openHtml();
+
         if ($values == "weekDays" || $values == "months") {
+            $html .= "<br>";
             $counter = 1;
             foreach($this->$values as $value){
                 $html .= "<div class='btn btn-default weekypicker' data-$values='$counter' data-type='$values'>
 $value</div>";
                 $counter++;
             }
+
         } else {
+
             $value = $this->$values;
             for($i = $value['min']; $i <= $value['max']; $i++){
-                $html .= "<div class='btn btn-default weekypicker' data-$values='$i' data-type='$values'>".str_pad($i,2,'0',STR_PAD_LEFT)."</div>";
+
+                // Break lines
+                if ($i%15 == 0 && $values == 'minutes') $html .= "<br>";
+                elseif ($i%12 == 0 && $values == 'hours') $html .= "<br>";
+                elseif ($i%16 == 1 && $values == 'days') $html .= "<br>";
+
+                // Set the values
+                $html .= "<div class='btn btn-default weekypicker' data-$values='$i' data-type='$values'>
+                            ".str_pad($i,2,'0',STR_PAD_LEFT).
+                         "</div>";
             }
+
         }
-        $html .= "</div></div>";
 
-        echo $html;
-
-        $this->getImput();
+        echo $html .= $this->closeHtml();
     }
 
     /**
@@ -125,34 +132,18 @@ $value</div>";
         }
     }
 
-    /**
-     * Registers tinyMCE js plugin
-     */
-    protected function registerClientScript()
+    private function openHtml()
     {
-        $js = [];
-        $view = $this->getView();
+        return "<div class='row'>
+                    <div class='col-lg-12'>
+                            <div class='btn btn-info weekypicker-select'>Selecionar</div>
+                    </div>
+                    <br><br>
+                    <div class='col-lg-12 weekypicker-menu'>";
+    }
 
-        TinyMceAsset::register($view);
-
-        $id = $this->options['id'];
-
-        $this->clientOptions['selector'] = "#$id";
-        // @codeCoverageIgnoreStart
-        if ($this->language !== null) {
-            $langFile = "langs/{$this->language}.js";
-            $langAssetBundle = TinyMceLangAsset::register($view);
-            $langAssetBundle->js[] = $langFile;
-            $this->clientOptions['language_url'] = $langAssetBundle->baseUrl . "/{$langFile}";
-        }
-        // @codeCoverageIgnoreEnd
-
-        $options = Json::encode($this->clientOptions);
-
-        $js[] = "tinymce.init($options);";
-        if ($this->triggerSaveOnBeforeValidateForm) {
-            $js[] = "$('#{$id}').parents('form').on('beforeValidate', function() { tinymce.triggerSave(); });";
-        }
-        $view->registerJs(implode("\n", $js));
+    private function closeHtml()
+    {
+        return "<br></div></div>";
     }
 }

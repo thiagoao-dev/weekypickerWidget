@@ -17,7 +17,7 @@ $(document).ready(function() {
             }
         });
 
-        console.log(objJson);
+        // Set the values to the input
         $('input.'+$(this).data('type')).val(JSON.stringify(objJson));
 
     });
