@@ -41,19 +41,20 @@ class WeekyPicker extends InputWidget
     public $triggerSaveOnBeforeValidateForm = true;
 
     // Types
-    public $months   = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ']; // 1-12
-    public $weekDays = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB', 'DOM']; // 1-7
-    public $days     = ['min' => 1, 'max' => 31]; // 1-31
-    public $hours    = ['min' => 0, 'max' => 23];
-    public $minutes  = ['min' => 0, 'max' => 59];
+    public $mes             = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ']; // 1-12
+    public $dia_da_semana   = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB', 'DOM']; // 1-7
+    public $dia_do_mes      = ['min' => 1, 'max' => 31]; // 1-31
+    public $hora            = ['min' => 0, 'max' => 23];
+    public $minuto          = ['min' => 0, 'max' => 59];
 
     public function init()
     {
+
+        WeekyPickerwidgetAssets::register($this->view);
         // Input params
         $this->options['class'] = "weekypicker " . $this->type;
         $this->options['type']  = "hidden";
         $this->options['value'] = "";
-        WeekyPickerwidgetAssets::register($this->view);
         $this->getImput();
     }
 
@@ -63,11 +64,11 @@ class WeekyPicker extends InputWidget
     public function run()
     {
         switch ($this->type){
-            case "minutes":  $this->mountData($this->type); break;
-            case "hours":    $this->mountData($this->type); break;
-            case "days":     $this->mountData($this->type); break;
-            case "weekDays": $this->mountData($this->type); break;
-            default:         $this->mountData($this->type); break;
+            case "minuto":        $this->mountData($this->type); break;
+            case "hora":          $this->mountData($this->type); break;
+            case "dia_do_mes":    $this->mountData($this->type); break;
+            case "dia_da_semana": $this->mountData($this->type); break;
+            default:              $this->mountData($this->type); break;
         }
     }
 
@@ -75,7 +76,8 @@ class WeekyPicker extends InputWidget
     {
         $html = $this->openHtml();
 
-        if ($values == "weekDays" || $values == "months") {
+        // Tipo de array associativo
+        if ($values == "dia_da_semana" || $values == "mes") {
 
             $html .= "<br>";
             $counter = 1;
@@ -93,9 +95,9 @@ class WeekyPicker extends InputWidget
             for($i = $value['min']; $i <= $value['max']; $i++){
 
                 // Break lines
-                if ($i%15 == 0 && $values == 'minutes') $html .= "<br>";
-                elseif ($i%12 == 0 && $values == 'hours') $html .= "<br>";
-                elseif ($i%16 == 1 && $values == 'days') $html .= "<br>";
+                if ($i%15 == 0 && $values == 'minuto') $html .= "<br>";
+                elseif ($i%12 == 0 && $values == 'hora') $html .= "<br>";
+                elseif ($i%16 == 1 && $values == 'dia_do_mes') $html .= "<br>";
 
                 // Set the values
                 $html .= "<div class='btn btn-default weekypicker' data-$values='$i' data-type='$values'>
@@ -113,7 +115,11 @@ class WeekyPicker extends InputWidget
      */
     private function getImput()
     {
+        // Recupera os atributos do modelo
+        $modelAttr = $this->model->getAttributes();
         if ($this->hasModel()) {
+            // Atribui o valor que esta no modelo para o value do input
+            $this->options['value'] = $modelAttr[$this->type];
             echo Html::activeTextInput($this->model, $this->attribute, $this->options);
         } else {
             echo Html::textInput($this->name, $this->value, $this->options);
