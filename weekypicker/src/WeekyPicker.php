@@ -94,8 +94,11 @@ class WeekyPicker extends InputWidget
                     <br><br>
                     <div class='col-lg-12 weekypicker-menu'>";
         if ($values == "weekDays" || $values == "months") {
+            $counter = 1;
             foreach($this->$values as $value){
-                $html .= "<div class='btn btn-default weekypicker' data-$values='$value' data-type='$values'>$value</div>";
+                $html .= "<div class='btn btn-default weekypicker' data-$values='$counter' data-type='$values'>
+$value</div>";
+                $counter++;
             }
         } else {
             $value = $this->$values;
