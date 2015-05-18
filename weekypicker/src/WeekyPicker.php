@@ -51,8 +51,9 @@ class WeekyPicker extends InputWidget
     {
         // Input params
         $this->options['class'] = "weekypicker";
-        $this->options['type']  = "hidden";
-        $this->options['value'] = "example";
+//        $this->options['type']  = "hidden";
+        $this->options['value'] = "";
+        WeekyPickerwidgetAssets::register($this->view);
     }
 
     /**
@@ -89,17 +90,19 @@ class WeekyPicker extends InputWidget
         $html = "<div class='row'><div class='col-lg-12'>";
         if ($values == "weekDays" || $values == "months") {
             foreach($this->$values as $value){
-                $html .= "<div class='btn btn-default' data-$values='$value'>$value</div>";
+                $html .= "<div class='btn btn-default weekypicker' data-$values='$value'>$value</div>";
             }
         } else {
             $value = $this->$values;
             for($i = $value['min']; $i <= $value['max']; $i++){
-                $html .= "<div class='btn btn-default' data-$values='$i'>".str_pad($i,2,'0',STR_PAD_LEFT)."</div>";
+                $html .= "<div class='btn btn-default weekypicker' data-$values='$i'>".str_pad($i,2,'0',STR_PAD_LEFT)."</div>";
             }
         }
         $html .= "</div></div>";
 
         echo $html;
+
+        $this->getImput();
     }
 
     /**
@@ -108,9 +111,9 @@ class WeekyPicker extends InputWidget
     private function getImput()
     {
         if ($this->hasModel()) {
-            return Html::activeTextInput($this->model, $this->attribute, $this->options);
+            echo Html::activeTextInput($this->model, $this->attribute, $this->options);
         } else {
-            return Html::textInput($this->name, $this->value, $this->options);
+            echo Html::textInput($this->name, $this->value, $this->options);
         }
     }
 
