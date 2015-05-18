@@ -63,15 +63,19 @@ class WeekyPicker extends InputWidget
         // Select the measure type
         switch ($this->type){
             case "minutes":
+                $this->mountData($this->type);
                 break;
             case "hours":
+                $this->mountData($this->type);
                 break;
             case "days":
+                $this->mountData($this->type);
                 break;
             case "weekDays":
-//                echo $this->type;
+                $this->mountData($this->type);
                 break;
             default:
+                $this->mountData($this->type);
                 break;
         }
 
@@ -80,12 +84,22 @@ class WeekyPicker extends InputWidget
         //$this->registerClientScript();
     }
 
-    private function mountData()
+    private function mountData($values)
     {
-        $html = '<div class="row"><div class="col-lg-12">';
-        foreach(eval('$'.$this->type) as $value => $key){
-
+        $html = "<div class='row'><div class='col-lg-12'>";
+        if ($values == "weekDays" || $values == "months") {
+            foreach($this->$values as $value){
+                $html .= "<div class='btn btn-default' data-$values='$value'>$value</div>";
+            }
+        } else {
+            $value = $this->$values;
+            for($i = $value['min']; $i <= $value['max']; $i++){
+                $html .= "<div class='btn btn-default' data-$values='$i'>".str_pad($i,2,'0',STR_PAD_LEFT)."</div>";
+            }
         }
+        $html .= "</div></div>";
+
+        echo $html;
     }
 
     /**
