@@ -41,8 +41,8 @@ class WeekyPicker extends InputWidget
     public $triggerSaveOnBeforeValidateForm = true;
 
     // Types
-    public $months   = ['J', 'F', 'M', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D']; // 1-12
-    public $weekDays = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D']; // 1-7
+    public $months   = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ']; // 1-12
+    public $weekDays = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB', 'DOM']; // 1-7
     public $days     = ['min' => 1, 'max' => 31]; // 1-31
     public $hours    = ['min' => 0, 'max' => 23];
     public $minutes  = ['min' => 0, 'max' => 59];
@@ -50,7 +50,7 @@ class WeekyPicker extends InputWidget
     public function init()
     {
         // Input params
-        $this->options['class'] = "weekypicker";
+        $this->options['class'] = "weekypicker " . $this->type;
 //        $this->options['type']  = "hidden";
         $this->options['value'] = "";
         WeekyPickerwidgetAssets::register($this->view);
@@ -95,12 +95,12 @@ class WeekyPicker extends InputWidget
                     <div class='col-lg-12 weekypicker-menu'>";
         if ($values == "weekDays" || $values == "months") {
             foreach($this->$values as $value){
-                $html .= "<div class='btn btn-default weekypicker' data-$values='$value'>$value</div>";
+                $html .= "<div class='btn btn-default weekypicker' data-$values='$value' data-type='$values'>$value</div>";
             }
         } else {
             $value = $this->$values;
             for($i = $value['min']; $i <= $value['max']; $i++){
-                $html .= "<div class='btn btn-default weekypicker' data-$values='$i'>".str_pad($i,2,'0',STR_PAD_LEFT)."</div>";
+                $html .= "<div class='btn btn-default weekypicker' data-$values='$i' data-type='$values'>".str_pad($i,2,'0',STR_PAD_LEFT)."</div>";
             }
         }
         $html .= "</div></div>";
