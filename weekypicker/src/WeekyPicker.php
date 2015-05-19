@@ -51,7 +51,7 @@ class WeekyPicker extends InputWidget
     {
 
         // Register the assets
-        WeekyPickerwidgetAssets::register($this->view);
+        WeekyPicker::register($this->view);
         // Input params
         $this->options['class'] = "weekypicker " . $this->type;
         $this->options['type']  = "hidden";
@@ -103,7 +103,7 @@ class WeekyPicker extends InputWidget
                 // Set the values
                 $html .= "<div class='btn btn-default weekypicker weekypicker-btn' data-$values='$i' data-type='$values'>
                             ".str_pad($i,2,'0',STR_PAD_LEFT).
-                         "</div>";
+                    "</div>";
             }
 
         }

@@ -28,7 +28,7 @@ $(document).ready(function() {
     // Botão manual/auto
     $(".weekypicker-manual").on('click', function(){
         $(".weekypicker-manual").each(function(){
-           $(this).removeClass('btn-success');
+            $(this).removeClass('btn-success');
         });
         $(this).addClass('btn-success');
         if ( $(this).data('type') == 'auto') {
