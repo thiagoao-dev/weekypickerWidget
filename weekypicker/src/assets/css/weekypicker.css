@@ -1,0 +1,9 @@
+div.weekypicker-menu {
+    display: none;
+}
+div.weekypicker-btn {
+    margin: 1px;
+}
+.field-cron-manual, .field-cron-id_workflow, .field-cron-id {
+    display: none;
+}
